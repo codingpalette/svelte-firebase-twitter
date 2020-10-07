@@ -1,16 +1,17 @@
 <script>
     import { onMount } from 'svelte';
-    import { push } from 'svelte-spa-router';
+    import { isLoggedIn, init } from '../store/user';
     import {authService} from '../fbase';
 
     onMount(() => {
         authService.onAuthStateChanged(user => {
-            if(!user) {
-                push('/auth')
+            if(user) {
+                $isLoggedIn = true;
+            } else {
+                $isLoggedIn = false;
             }
+            $init = true;
         })
+
     })
 </script>
-
-
-<div>Home</div>

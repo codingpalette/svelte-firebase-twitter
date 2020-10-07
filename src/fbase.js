@@ -1,4 +1,5 @@
 import * as firebase from "firebase/app";
+import "firebase/auth";
 
 const firebaseConfig = {
     apiKey: __myapp.env.API_KEY,
@@ -10,4 +11,8 @@ const firebaseConfig = {
     appId:  __myapp.env.APPID,
 };
 
-export default firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
+
+export const firebaseInstance = firebase;
+
+export const authService = firebase.auth();
