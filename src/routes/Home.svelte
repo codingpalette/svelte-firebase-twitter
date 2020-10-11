@@ -1,7 +1,9 @@
 <script>
     import { onMount } from 'svelte';
     import { push } from 'svelte-spa-router';
-    import {authService, dbService} from '../fbase';
+    import { authService, dbService } from '../fbase';
+    import { currentUser } from '../store/user';
+    import Tweet from '../components/Tweet.svelte';
 
     onMount(() => {
         authService.onAuthStateChanged(user => {
@@ -27,14 +29,22 @@
     }
 
     onMount(() => {
-        getTweets();
-
+        // getTweets(); // 옛날 방식
+        dbService.collection('tweets').onSnapshot(snapshot => {
+            const tweetArray = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }))
+            tweets = tweetArray;
+            console.log(tweetArray)
+        })
     })
 
     const onSubmit = async () => {
         await dbService.collection('tweets').add({
-            tweet: tweet,
+            text: tweet,
             createAt: Date.now(),
+            creatorId: $currentUser.uid,
         });
         tweet = '';
     }
@@ -48,9 +58,10 @@
     </form>
     <div>
         {#each tweets as data}
-            <div>
-                <h4>{data.tweet}</h4>
-            </div>
+            <Tweet
+                tweetObj={data}
+                isOwner={data.creatorId === $currentUser.uid}
+            />
         {/each}
     </div>
 </div>
