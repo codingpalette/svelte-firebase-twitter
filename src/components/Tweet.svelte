@@ -1,23 +1,24 @@
 <script>
     export let tweetObj;
     export let isOwner;
-    import { authService, dbService } from '../fbase';
+    import { authService, dbService, storageService } from '../fbase';
 
     let editing = false;
     let newTweet = tweetObj.text;
 
     const onDeleteClick = async () => {
         const ok = confirm("정말로 삭제하시겠습니까?")
-        console.log(ok)
+        // console.log(ok)
         if (ok) {
             await dbService.doc(`tweets/${tweetObj.id}`).delete();
+            await storageService.refFromURL(tweetObj.attachmentUrl).delete();
         }
     }
 
     const toggleEditing = () => editing = !editing;
 
     const onSubmit = async () => {
-        console.log(tweetObj, newTweet)
+        // console.log(tweetObj, newTweet)
         await dbService.doc(`tweets/${tweetObj.id}`).update({
             text: newTweet
         });
@@ -38,6 +39,9 @@
         {/if}
     {:else}
         <h4>{tweetObj.text}</h4>
+        {#if tweetObj.attachmentUrl}
+            <img src={tweetObj.attachmentUrl} width="50px" height="50px" />
+        {/if}
         {#if isOwner}
             <button on:click={onDeleteClick}>Delete Tweet</button>
             <button on:click={toggleEditing}>Edit Tweet</button>

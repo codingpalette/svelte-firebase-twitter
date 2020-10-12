@@ -57,16 +57,23 @@
     const onClearAttachment = () => attachment = null;
 
     const onSubmit = async () => {
-        const fileRef = storageService.ref().child(`${$currentUser.uid}/${uuidv4()}`)
-        const response = await fileRef.putString(attachment, "data_url");
-        console.log(response)
-        // await dbService.collection('tweets').add({
-        //     text: tweet,
-        //     createAt: Date.now(),
-        //     creatorId: $currentUser.uid,
-        // });
-        // tweet = '';
+        let attachmentUrl = ""
+        if (attachment !== '') {
+            const attachmentRef = storageService.ref().child(`${$currentUser.uid}/${uuidv4()}`)
+            const response = await attachmentRef.putString(attachment, "data_url");
+            attachmentUrl = await response.ref.getDownloadURL();
+        }
 
+        const tweetObj = {
+            text: tweet,
+            createAt: Date.now(),
+            creatorId: $currentUser.uid,
+            attachmentUrl
+        }
+
+        await dbService.collection('tweets').add(tweetObj);
+        tweet = '';
+        attachment = null;
 
     }
 </script>
