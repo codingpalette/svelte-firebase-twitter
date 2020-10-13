@@ -42,11 +42,23 @@
 </script>
 
 
-<form on:submit|preventDefault={onSubmit}>
-    <input type="text" placeholder="Display name" bind:value={newDisplayName} />
-    <input type="submit" value="Update Profile">
-</form>
+<div class="container">
+    <form on:submit|preventDefault={onSubmit} class="profileForm">
+        <input
+            type="text"
+            placeholder="Display name"
+            bind:value={newDisplayName}
+            autoFocus
+        />
+        <input
+            type="submit"
+            value="Update Profile"
+            class="formBtn"
+            style="margin-top: 10px"
+        />
+    </form>
+    <span class="formBtn cancelBtn logOut" on:click={onLogOutClick}>
+        Log Out
+    </span>
+</div>
 
-<button type="button" on:click={onLogOutClick}>
-    Log Out
-</button>

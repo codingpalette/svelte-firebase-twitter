@@ -18,9 +18,12 @@
         reader.readAsDataURL(theFile);
     }
 
-    const onClearAttachment = () => attachment = null;
+    const onClearAttachment = () => attachment = "";
 
     const onSubmit = async () => {
+        if (tweet === ''){
+            return;
+        }
         let attachmentUrl = ""
         if (attachment !== '') {
             const attachmentRef = storageService.ref().child(`${$currentUser.uid}/${uuidv4()}`)
@@ -43,14 +46,35 @@
 </script>
 
 
-<form on:submit|preventDefault={onSubmit}>
-    <input type="text" placeholder="무슨일이 있는지 적어주세요." maxlength="120" bind:value={tweet} />
-    <input type="file" accept="image/*" on:change={onFileChange} />
-    <input type="submit" value="Tweet" />
+<form on:submit|preventDefault={onSubmit} class="factoryForm">
+    <div class="factoryInput__container">
+        <input
+            type="text"
+            placeholder="무슨일이 있는지 적어주세요."
+            maxlength="120"
+            bind:value={tweet}
+            class="factoryInput__input"
+        />
+        <input type="submit" value="&rarr;" class="factoryInput__arrow" />
+    </div>
+    <label for="attach-file" class="factoryInput__label">
+        <span>Add photos</span>
+        <i class="fas fa-plus"></i>
+    </label>
+    <input
+        id="attach-file"
+        type="file"
+        accept="image/*"
+        on:change={onFileChange}
+        style="opacity: 0;"
+    />
     {#if attachment}
-        <div>
-            <img src={attachment} width="50px" height="50px" />
-            <button on:click={onClearAttachment}>Clear</button>
+        <div class="factoryForm__attachment">
+            <img src={attachment} style="background-image: {attachment}" alt="" />
+            <div class="factoryForm__clear" on:click={onClearAttachment}>
+                <span>Remove</span>
+                <i class="fas fa-times"></i>
+            </div>
         </div>
     {/if}
 </form>

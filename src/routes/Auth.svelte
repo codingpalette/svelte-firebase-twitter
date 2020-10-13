@@ -27,10 +27,17 @@
     }
 </script>
 
-<div>
+<div class="authContainer">
+    <i class="fab fa-twitter fa-3x" style="color: #04aaff; margin-bottom: 30px"></i>
     <AuthForm />
-    <div>
-        <button on:click={onSocialClick} name="google">Continue with Google</button>
+    <div class="authBtns">
+        <button
+            on:click={onSocialClick}
+            name="google"
+            class="authBtn"
+        >
+            Continue with Google <i class="fab fa-google"></i>
+        </button>
     </div>
 </div>
 

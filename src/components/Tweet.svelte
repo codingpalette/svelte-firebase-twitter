@@ -28,23 +28,29 @@
 
 
 
-<div>
+<div class="nweet">
     {#if editing}
         {#if isOwner}
-            <form on:submit|preventDefault={onSubmit}>
-                <input type="text" placeholder="새로운 텍스트" bind:value={newTweet} required />
-                <input type="submit" value="update" />
+            <form on:submit|preventDefault={onSubmit} class="container nweetEdit">
+                <input type="text" placeholder="새로운 텍스트" autoFocus bind:value={newTweet} required class="formInput" />
+                <input type="submit" value="update" class="formBtn" />
             </form>
-            <button on:click={toggleEditing}>Cancel</button>
+            <button on:click={toggleEditing} class="formBtn cancelBtn">Cancel</button>
         {/if}
     {:else}
         <h4>{tweetObj.text}</h4>
         {#if tweetObj.attachmentUrl}
-            <img src={tweetObj.attachmentUrl} width="50px" height="50px" />
+            <img src={tweetObj.attachmentUrl} alt="" />
         {/if}
         {#if isOwner}
-            <button on:click={onDeleteClick}>Delete Tweet</button>
-            <button on:click={toggleEditing}>Edit Tweet</button>
+            <div class="nweet__actions">
+                <span on:click={onDeleteClick}>
+                    <i class="fas fa-trash"></i>
+                </span>
+                <span on:click={toggleEditing}>
+                    <i class="fas fa-pencil-alt"></i>
+                </span>
+            </div>
         {/if}
     {/if}
 

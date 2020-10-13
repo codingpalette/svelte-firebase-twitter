@@ -8,7 +8,7 @@
 
     onMount(() => {
         authService.onAuthStateChanged(user => {
-            console.log(user)
+            // console.log(user)
             if (!user) {
                 push('/auth')
             }
@@ -28,7 +28,7 @@
             }
             tweets = [tweetObject, ...tweets]
         })
-        console.log(tweets)
+        // console.log(tweets)
     }
 
     onMount(() => {
@@ -47,9 +47,9 @@
 </script>
 
 
-<div>
+<div class="container">
     <TweetFactory />
-    <div>
+    <div style="margin-top: 30px">
         {#each tweets as data}
             <Tweet
                 tweetObj={data}

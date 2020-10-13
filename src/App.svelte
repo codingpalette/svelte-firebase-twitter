@@ -14,12 +14,20 @@
     {#if $isLoggedIn}
         <Navigation />
     {/if}
-    <Router {routes} />
+    <div class="router_box">
+        <Router {routes} />
+    </div>
 {:else}
     <div>loading...</div>
 {/if}
 <Footer />
 
 <style>
-
+    .router_box{
+        max-width: 890px;
+        width: 100%;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+    }
 </style>
