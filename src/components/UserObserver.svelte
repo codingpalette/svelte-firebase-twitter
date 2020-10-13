@@ -7,7 +7,11 @@
         authService.onAuthStateChanged(user => {
             if(user) {
                 $isLoggedIn = true;
-                $currentUser = user;
+                $currentUser = {
+                    displayName:user.displayName,
+                    uid:user.uid,
+                    updateProfile: (args) => user.updateProfile(args)
+                }
             } else {
                 $isLoggedIn = false;
                 $currentUser = false;
