@@ -10,7 +10,7 @@
             .where('creatorId', '==', $currentUser.uid)
             .orderBy('createAt', 'desc')
             .get();
-        console.log(tweets.docs.map((doc) => doc.data()));
+        // console.log(tweets.docs.map((doc) => doc.data()));
     }
 
     onMount(() => {
